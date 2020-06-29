@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function onSubmit(e) {
+      fetch('http://my-server.com/api/form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: document.getElementById('email').value
+        })
+      })
+    }
+  </script>
+  <form onsubmit="onSubmit(event); return false">
+    <input type="text" id="email" />
+    <br />
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>

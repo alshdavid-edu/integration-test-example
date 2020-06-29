@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "lib": ["esnext", "DOM"],
+    "target": "es6",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "rootDir": "src",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "strict": true
+  }
+}
