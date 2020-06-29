@@ -8,7 +8,7 @@
 <body>
   <script>
     function onSubmit(e) {
-      fetch('http://my-server.com/api/form', {
+      fetch('http://localhost:4220/api/forms', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -20,7 +20,7 @@
   <form onsubmit="onSubmit(event); return false">
     <input type="text" id="email" />
     <br />
-    <button type="submit">Submit</button>
+    <button id="submit" type="submit">Submit</button>
   </form>
 </body>
 </html>

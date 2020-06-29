@@ -1,13 +1,46 @@
 import * as puppeteer from 'puppeteer'
+import { newPage } from '../setup'
 
-declare const page: puppeteer.Page
+describe('Index Page', () => {
+  let page: puppeteer.Page
 
-describe('Google', () => {
   beforeAll(async () => {
-    await page.goto('https://google.com');
+    page = await newPage()
   });
 
-  it('should be titled "Google"', async () => {
-    await expect(page.title()).resolves.toMatch('Google');
+  afterAll(async () => {
+    await page.close()
+  })
+
+  it('Should be titled "Document"', async () => {
+    await expect(page.title()).resolves.toMatch('Document');
   });
+
+  it('Should submit form', async () => {
+    await page.setRequestInterception(true);
+
+    const onFormHttpCall = new Promise<any>(res => 
+      page.on('request', async req => {
+        if (req.method() === 'POST' && req.url().includes('/api/forms')) {
+          const form = JSON.parse(req.postData()!)
+          res(form)
+          req.respond({})
+          return
+        }
+        req.continue()
+      }
+    ))
+  
+    // Fill out the form and click submit
+    await page.type('#email', 'testman@fakeemail.com')
+    await page.click('#submit')
+  
+    // Wait for the listener to resolve
+    const results = await onFormHttpCall
+  
+    // Test to see if the api call contains the right data
+    expect(results).toEqual({
+      email: 'testman@fakeemail.com'
+    })
+  })
 });
